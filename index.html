@@ -26,16 +26,63 @@
       text-align: center;
       color: #64748b;
       font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    /* ── Filter bar ── */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
       margin-bottom: 2.5rem;
     }
 
-    h2 {
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+    }
+
+    .filter-sep {
+      width: 1px;
+      height: 1.4rem;
+      background: #1e293b;
+      margin: 0 0.25rem;
+    }
+
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #1e293b;
+      background: #1e293b;
+      color: #94a3b8;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      user-select: none;
+    }
+
+    .filter-btn:hover { border-color: #334155; color: #cbd5e1; }
+
+    .filter-btn.active-all      { background: #334155; color: #f1f5f9; border-color: #475569; }
+    .filter-btn.active-2p       { background: #1e3a5f; color: #93c5fd; border-color: #2563eb; }
+    .filter-btn.active-4p       { background: #2a1e5f; color: #c4b5fd; border-color: #7c3aed; }
+    .filter-btn.active-tag      { background: #1e3a3a; color: #5eead4; border-color: #0d9488; }
+
+    /* ── Section headings ── */
+    .section-block { margin-top: 2.5rem; }
+    .section-block h2 {
       font-size: 1.1rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: #94a3b8;
-      margin: 2.5rem 0 1rem;
+      margin-bottom: 1rem;
     }
 
     .table-wrap {
@@ -50,9 +97,7 @@
       font-size: 0.9rem;
     }
 
-    thead tr {
-      background: #1e293b;
-    }
+    thead tr { background: #1e293b; }
 
     thead th {
       padding: 0.75rem 1rem;
@@ -67,9 +112,7 @@
       transition: background 0.15s;
     }
 
-    tbody tr:hover {
-      background: #1a2130;
-    }
+    tbody tr:hover { background: #1a2130; }
 
     td {
       padding: 0.75rem 1rem;
@@ -105,15 +148,11 @@
     .tag-bajada     { background: #1e3a5f; color: #38bdf8; }
     .tag-defense    { background: #3b1a1a; color: #f87171; }
     .tag-overheads  { background: #2a3b1a; color: #a3e635; }
+    .tag-lob        { background: #1e3b38; color: #2dd4bf; }
     .tag-default    { background: #1e293b; color: #94a3b8; }
 
-    .key-points {
-      color: #cbd5e1;
-    }
-
-    .key-points strong {
-      color: #f1f5f9;
-    }
+    .key-points { color: #cbd5e1; }
+    .key-points strong { color: #f1f5f9; }
 
     a {
       color: #38bdf8;
@@ -121,11 +160,11 @@
       font-weight: 500;
     }
 
-    a:hover {
-      text-decoration: underline;
-    }
+    a:hover { text-decoration: underline; }
 
     .empty { color: #334155; }
+
+    .hidden { display: none !important; }
 
     @media (max-width: 640px) {
       h1 { font-size: 1.5rem; }
@@ -138,91 +177,241 @@
   <h1>Padel Training Drills</h1>
   <p class="subtitle">A personal drill reference sheet</p>
 
-  <h2>Warmup</h2>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Drill</th>
-          <th>Tags</th>
-          <th>Detail</th>
-          <th>Link</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Hitting Cones (3 Positions)</td>
-          <td><span class="tags"><span class="tag tag-control">#Control</span></span></td>
-          <td>Try to hit the cone on the other side; replace after 3 minutes, moving further back.</td>
-          <td><a href="https://youtu.be/0BsTOKOujIs?list=PL_l3gJM1EscI-djf3oDkvoWCgbEQplTEz&t=50" target="_blank" rel="noopener">padelschool</a></td>
-        </tr>
-        <tr>
-          <td>Gradual Approach</td>
-          <td><span class="tags"><span class="tag tag-control">#Control</span><span class="tag tag-chiquita">#Chiquita</span><span class="tag tag-volleys">#Volleys</span></span></td>
-          <td>Move from the back of the court after playing a chiquita, gradually advancing to the net.</td>
-          <td><a href="https://youtu.be/0BsTOKOujIs?list=PL_l3gJM1EscI-djf3oDkvoWCgbEQplTEz&t=171" target="_blank" rel="noopener">padelschool</a></td>
-        </tr>
-        <tr>
-          <td>Chiquita Challenge</td>
-          <td><span class="tags"><span class="tag tag-chiquita">#Chiquita</span><span class="tag tag-overheads">#Overheads</span></span></td>
-          <td>Person at the back tries to play a chiquita (bounce in front of the other player).</td>
-          <td><a href="https://youtu.be/n9grvzUwll4?list=PL_l3gJM1EscI-djf3oDkvoWCgbEQplTEz&t=55" target="_blank" rel="noopener">padelable</a></td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- ── Filter bar ── -->
+  <div class="filters">
+    <div class="filter-group">
+      <button class="filter-btn active-all" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="2players">2 Players</button>
+      <button class="filter-btn" data-filter="4players">4 Players</button>
+    </div>
+    <div class="filter-sep"></div>
+    <div class="filter-group">
+      <button class="filter-btn" data-filter="tag-control">#Control</button>
+      <button class="filter-btn" data-filter="tag-chiquita">#Chiquita</button>
+      <button class="filter-btn" data-filter="tag-volleys">#Volleys</button>
+      <button class="filter-btn" data-filter="tag-corner">#Corner</button>
+      <button class="filter-btn" data-filter="tag-bajada">#Bajada</button>
+      <button class="filter-btn" data-filter="tag-defense">#Defense</button>
+      <button class="filter-btn" data-filter="tag-overheads">#Overheads</button>
+      <button class="filter-btn" data-filter="tag-lob">#Lob</button>
+    </div>
   </div>
 
-  <h2>Drills</h2>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Drill</th>
-          <th>Tags</th>
-          <th>Key Points</th>
-          <th>Detail</th>
-          <th>Link</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Diagonal Corner Drill</td>
-          <td><span class="tags"><span class="tag tag-corner">#Corner</span></span></td>
-          <td class="key-points">Different angles, different rules / Ball fast → turn / Early preparation before ball bounces / Play the ball high fast / <strong>Play the ball in front of you</strong></td>
-          <td>Play balls to the right or left foot and practice following the ball movement.</td>
-          <td><a href="https://youtu.be/0BsTOKOujIs?list=PL_l3gJM1EscI-djf3oDkvoWCgbEQplTEz&t=171" target="_blank" rel="noopener">otronivel</a></td>
-        </tr>
-        <tr>
-          <td>Bajada Drill</td>
-          <td><span class="tags"><span class="tag tag-bajada">#Bajada</span></span></td>
-          <td class="key-points">Early preparation → racket up + follow ball with non-active hand / Fast acceleration, <strong>no wrist</strong></td>
-          <td>Follow the bounce of the ball — control over power.</td>
-          <td><a href="https://www.youtube.com/watch?v=1uaT2O_HS4M" target="_blank" rel="noopener">hellopadel</a></td>
-        </tr>
-        <tr>
-          <td>Defense</td>
-          <td><span class="tags"><span class="tag tag-defense">#Defense</span></span></td>
-          <td class="key-points">Detect an easy ball → change direction + move forward → chiquita + move forward</td>
-          <td class="empty">—</td>
-          <td class="empty">—</td>
-        </tr>
-        <tr>
-          <td>Overheads Right Shoulder</td>
-          <td><span class="tags"><span class="tag tag-overheads">#Overheads</span></span></td>
-          <td class="key-points">High balls → cross to fence / High balls → vibora straight</td>
-          <td>Right-side players only.</td>
-          <td><a href="https://www.youtube.com/watch?v=lG1heZGqz-U" target="_blank" rel="noopener">hellopadel</a></td>
-        </tr>
-        <tr>
-          <td>Overheads Left Shoulder</td>
-          <td><span class="tags"><span class="tag tag-overheads">#Overheads</span></span></td>
-          <td class="key-points">High balls → gancho/bandeja to the fence</td>
-          <td>Right-side players only.</td>
-          <td><a href="https://youtu.be/XXfAoP8CZ7g" target="_blank" rel="noopener">hellopadel</a></td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- ── Warmup ── -->
+  <div class="section-block" data-section="warmup">
+    <h2>Warmup</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Drill</th>
+            <th>Tags</th>
+            <th>Detail</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-section="warmup" data-tags="control">
+            <td>Hitting Cones (3 Positions)</td>
+            <td><span class="tags"><span class="tag tag-control">#Control</span></span></td>
+            <td>Try to hit the cone on the other side; replace after 3 minutes, moving further back.</td>
+            <td><a href="https://youtu.be/0BsTOKOujIs?list=PL_l3gJM1EscI-djf3oDkvoWCgbEQplTEz&t=50" target="_blank" rel="noopener">padelschool</a></td>
+          </tr>
+          <tr data-section="warmup" data-tags="control chiquita volleys">
+            <td>Gradual Approach</td>
+            <td><span class="tags"><span class="tag tag-control">#Control</span><span class="tag tag-chiquita">#Chiquita</span><span class="tag tag-volleys">#Volleys</span></span></td>
+            <td>Move from the back of the court after playing a chiquita, gradually advancing to the net.</td>
+            <td><a href="https://youtu.be/0BsTOKOujIs?list=PL_l3gJM1EscI-djf3oDkvoWCgbEQplTEz&t=171" target="_blank" rel="noopener">padelschool</a></td>
+          </tr>
+          <tr data-section="warmup" data-tags="chiquita overheads">
+            <td>Chiquita Challenge</td>
+            <td><span class="tags"><span class="tag tag-chiquita">#Chiquita</span><span class="tag tag-overheads">#Overheads</span></span></td>
+            <td>Person at the back tries to play a chiquita (bounce in front of the other player).</td>
+            <td><a href="https://youtu.be/n9grvzUwll4?list=PL_l3gJM1EscI-djf3oDkvoWCgbEQplTEz&t=55" target="_blank" rel="noopener">padelable</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
+  <!-- ── Drills #2Players ── -->
+  <div class="section-block" data-section="2players">
+    <h2>Drills — 2 Players</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Drill</th>
+            <th>Tags</th>
+            <th>Key Points</th>
+            <th>Detail</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-section="2players" data-tags="corner">
+            <td>Diagonal Corner Drill</td>
+            <td><span class="tags"><span class="tag tag-corner">#Corner</span></span></td>
+            <td class="key-points">Different angles, different rules / Ball fast → turn / Early preparation before ball bounces / Play the ball high fast / <strong>Play the ball in front of you</strong></td>
+            <td>Play balls to the right or left foot and practice following the ball movement.</td>
+            <td><a href="https://youtu.be/0BsTOKOujIs?list=PL_l3gJM1EscI-djf3oDkvoWCgbEQplTEz&t=171" target="_blank" rel="noopener">otronivel</a></td>
+          </tr>
+          <tr data-section="2players" data-tags="bajada">
+            <td>Bajada Drill</td>
+            <td><span class="tags"><span class="tag tag-bajada">#Bajada</span></span></td>
+            <td class="key-points">Early preparation → racket up + follow ball with non-active hand / Fast acceleration, <strong>no wrist</strong></td>
+            <td>Follow the bounce of the ball — control over power.</td>
+            <td><a href="https://www.youtube.com/watch?v=1uaT2O_HS4M" target="_blank" rel="noopener">hellopadel</a></td>
+          </tr>
+          <tr data-section="2players" data-tags="defense">
+            <td>Defense</td>
+            <td><span class="tags"><span class="tag tag-defense">#Defense</span></span></td>
+            <td class="key-points">Detect an easy ball → change direction + move forward → chiquita + move forward</td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+          </tr>
+          <tr data-section="2players" data-tags="overheads">
+            <td>Overheads Right Shoulder</td>
+            <td><span class="tags"><span class="tag tag-overheads">#Overheads</span></span></td>
+            <td class="key-points">High balls → cross to fence / High balls → vibora straight</td>
+            <td>Right-side players only.</td>
+            <td><a href="https://www.youtube.com/watch?v=lG1heZGqz-U" target="_blank" rel="noopener">hellopadel</a></td>
+          </tr>
+          <tr data-section="2players" data-tags="overheads">
+            <td>Overheads Left Shoulder</td>
+            <td><span class="tags"><span class="tag tag-overheads">#Overheads</span></span></td>
+            <td class="key-points">High balls → gancho/bandeja to the fence</td>
+            <td>Right-side players only.</td>
+            <td><a href="https://youtu.be/XXfAoP8CZ7g" target="_blank" rel="noopener">hellopadel</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Drills #4Players ── -->
+  <div class="section-block" data-section="4players">
+    <h2>Drills — 4 Players</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Drill</th>
+            <th>Tags</th>
+            <th>Key Points</th>
+            <th>Detail</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-section="4players" data-tags="defense">
+            <td>Chiquita</td>
+            <td><span class="tags"><span class="tag tag-defense">#Defense</span></span></td>
+            <td class="key-points">2 players defending at the back vs. 2 players at the net → defending players must force an easy ball → play chiquita → net game or lob that switches roles</td>
+            <td>No lobs in defense position allowed.</td>
+            <td class="empty">—</td>
+          </tr>
+          <tr data-section="4players" data-tags="volleys">
+            <td>Volley Depth</td>
+            <td><span class="tags"><span class="tag tag-volleys">#Volleys</span></span></td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+            <td class="empty">—</td>
+          </tr>
+          <tr data-section="4players" data-tags="lob">
+            <td>Lob</td>
+            <td><span class="tags"><span class="tag tag-lob">#Lob</span></span></td>
+            <td class="key-points">Markers next to 2nd post and in the middle of service line and back glass</td>
+            <td>Lob after line: +1 pt / Lob out: −1 pt</td>
+            <td><a href="https://www.youtube.com/watch?v=KvxXUJw-Bh8" target="_blank" rel="noopener">YouTube</a></td>
+          </tr>
+          <tr data-section="4players" data-tags="overheads">
+            <td>Overheads Right Shoulder</td>
+            <td><span class="tags"><span class="tag tag-overheads">#Overheads</span></span></td>
+            <td class="key-points">High balls → cross to fence / High balls → vibora straight</td>
+            <td>Right-side players only.</td>
+            <td><a href="https://www.youtube.com/watch?v=lG1heZGqz-U" target="_blank" rel="noopener">hellopadel</a></td>
+          </tr>
+          <tr data-section="4players" data-tags="overheads">
+            <td>Overheads Left Shoulder</td>
+            <td><span class="tags"><span class="tag tag-overheads">#Overheads</span></span></td>
+            <td class="key-points">High balls → gancho/bandeja to the fence</td>
+            <td>Right-side players only.</td>
+            <td><a href="https://youtu.be/XXfAoP8CZ7g" target="_blank" rel="noopener">hellopadel</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.filter-btn');
+    const rows    = document.querySelectorAll('tbody tr');
+    const sections = document.querySelectorAll('.section-block');
+
+    let activeFilter = 'all';
+
+    function applyFilter(filter) {
+      activeFilter = filter;
+
+      rows.forEach(row => {
+        const section = row.dataset.section;
+        const tags    = (row.dataset.tags || '').split(' ');
+
+        let visible = false;
+
+        if (filter === 'all') {
+          visible = true;
+        } else if (filter === '2players') {
+          visible = section === '2players' || section === 'warmup';
+        } else if (filter === '4players') {
+          visible = section === '4players';
+        } else if (filter.startsWith('tag-')) {
+          const tag = filter.replace('tag-', '');
+          visible = tags.includes(tag);
+        }
+
+        row.classList.toggle('hidden', !visible);
+      });
+
+      // Hide section blocks that have no visible rows
+      sections.forEach(sec => {
+        const visibleRows = sec.querySelectorAll('tbody tr:not(.hidden)');
+        sec.classList.toggle('hidden', visibleRows.length === 0);
+      });
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+
+        // Toggle off if already active (except 'all')
+        if (filter !== 'all' && activeFilter === filter) {
+          applyFilter('all');
+          updateActive('all');
+          return;
+        }
+
+        applyFilter(filter);
+        updateActive(filter);
+      });
+    });
+
+    function updateActive(filter) {
+      buttons.forEach(b => {
+        b.classList.remove('active-all', 'active-2p', 'active-4p', 'active-tag');
+        if (b.dataset.filter === filter) {
+          if (filter === 'all')            b.classList.add('active-all');
+          else if (filter === '2players')  b.classList.add('active-2p');
+          else if (filter === '4players')  b.classList.add('active-4p');
+          else                             b.classList.add('active-tag');
+        }
+      });
+    }
+
+    // Init
+    updateActive('all');
+  </script>
 
 </body>
 </html>

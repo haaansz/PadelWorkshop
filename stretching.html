@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stretching Workout — Padel Training</title>
+<style>
+  :root {
+    --bg: #0a180a;
+    --surface: #0f1f0f;
+    --surface2: #162616;
+    --border: rgba(74,222,128,0.18);
+    --green: #4ade80;
+    --green-soft: #86efac;
+    --green-dim: rgba(74,222,128,0.08);
+    --text: #e6edf3;
+    --muted: #6b9e6b;
+    --radius: 14px;
+    --circumference: 502.65;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HEADER */
+  header {
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,0,0,0.25);
+    flex-shrink: 0;
+    gap: 12px;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid rgba(74,222,128,0.25);
+    background: rgba(74,222,128,0.08);
+    color: var(--green-soft);
+    text-decoration: none;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .btn-back:hover { background: rgba(74,222,128,0.15); border-color: rgba(74,222,128,0.45); color: var(--green); }
+  .logo {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    background: linear-gradient(135deg, #fff 0%, var(--green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .tabs { display: flex; gap: 6px; }
+  .tab {
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab-active {
+    background: rgba(74,222,128,0.15);
+    border-color: rgba(74,222,128,0.4);
+    color: var(--green);
+  }
+  .tab-inactive {
+    color: var(--muted);
+    border-color: rgba(255,255,255,0.08);
+  }
+  .tab-inactive:hover { border-color: rgba(74,222,128,0.2); color: var(--green-soft); }
+
+  /* MAIN LAYOUT */
+  main { flex: 1; display: flex; flex-direction: column; }
+  .workout-view, .strength-placeholder { flex: 1; }
+
+  /* RESPONSIVE GRID */
+  .workout-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 28px;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 28px 24px;
+    height: 100%;
+  }
+
+  /* LEFT PANEL */
+  .image-panel { display: flex; flex-direction: column; gap: 14px; }
+  .exercise-counter { display: flex; align-items: center; gap: 12px; }
+  .counter-text { font-size: 13px; color: var(--muted); font-weight: 500; white-space: nowrap; }
+  .progress-dots { display: flex; gap: 6px; flex-wrap: wrap; }
+  .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--border);
+    transition: all 0.3s;
+  }
+  .dot-done { background: var(--green); }
+  .dot-current {
+    background: var(--green-soft);
+    box-shadow: 0 0 8px rgba(74,222,128,0.6);
+  }
+  .image-container {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    aspect-ratio: 16/9;
+    flex: 1;
+    min-height: 0;
+  }
+  .image-container img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .image-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 18px 16px 14px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.65));
+    font-size: 11px; color: var(--green-soft);
+    font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* RIGHT PANEL */
+  .timer-panel { display: flex; flex-direction: column; gap: 18px; padding-top: 4px; }
+
+  .exercise-name { font-size: 26px; font-weight: 800; line-height: 1.2; letter-spacing: -0.3px; }
+  .exercise-subtitle { font-size: 15px; color: var(--green-soft); margin-top: 2px; }
+  .muscle-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .muscle-tag {
+    background: var(--green-dim);
+    border: 1px solid rgba(74,222,128,0.2);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px; color: var(--green-soft); font-weight: 600;
+  }
+
+  /* TIMER RING */
+  .timer-wrap { display: flex; align-items: center; justify-content: center; }
+  .timer-ring {
+    position: relative;
+    width: 180px; height: 180px;
+    flex-shrink: 0;
+  }
+  .timer-ring svg {
+    position: absolute; top: 0; left: 0;
+    transform: rotate(-90deg);
+  }
+  .ring-track { fill: none; stroke: var(--surface2); stroke-width: 10; }
+  .ring-fill {
+    fill: none;
+    stroke: var(--green);
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 502.65;
+    stroke-dashoffset: 0;
+    filter: drop-shadow(0 0 5px rgba(74,222,128,0.5));
+    transition: stroke-dashoffset 0.5s linear;
+  }
+  .ring-fill-rest { stroke: var(--muted); filter: none; }
+  .timer-center {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .timer-digits {
+    font-size: 54px; font-weight: 800; letter-spacing: -2px; line-height: 1;
+    background: linear-gradient(135deg, #fff, var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .timer-label {
+    font-size: 10px; color: var(--muted);
+    font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 3px;
+  }
+  .timer-rest-label { color: var(--muted); font-size: 12px; font-weight: 600; text-align: center; margin-top: -6px; }
+
+  /* CONTROLS */
+  .controls { display: flex; align-items: center; justify-content: center; gap: 12px; }
+  .btn-nav {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--green-dim);
+    border: 1px solid var(--border);
+    color: var(--green-soft);
+    font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .btn-nav:hover { background: rgba(74,222,128,0.15); border-color: rgba(74,222,128,0.4); }
+  .btn-play {
+    width: 68px; height: 68px; border-radius: 50%;
+    background: var(--green);
+    border: none;
+    color: #0a180a;
+    font-size: 22px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 24px rgba(74,222,128,0.4);
+    transition: all 0.15s;
+    font-weight: 700;
+  }
+  .btn-play:hover { background: var(--green-soft); box-shadow: 0 0 32px rgba(74,222,128,0.55); }
+  .btn-skip {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px; font-weight: 600;
+    padding: 7px 18px; border-radius: 20px;
+    cursor: pointer; font-family: inherit;
+    transition: all 0.15s; display: block; margin: 0 auto;
+  }
+  .btn-skip:hover { color: var(--green-soft); border-color: rgba(74,222,128,0.3); }
+
+  /* INSTRUCTION */
+  .instruction-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .instruction-title {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 7px;
+  }
+  .instruction-text { font-size: 13px; color: #aac5aa; line-height: 1.65; }
+
+  /* UPCOMING */
+  .upcoming-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 8px;
+  }
+  .upcoming-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(74,222,128,0.07);
+  }
+  .upcoming-item:last-child { border-bottom: none; }
+  .upcoming-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: var(--muted); flex-shrink: 0;
+  }
+  .upcoming-name { font-size: 13px; color: #aac5aa; flex: 1; }
+  .upcoming-time { font-size: 11px; color: var(--muted); }
+
+  /* COMPLETION SCREEN */
+  .completion-screen {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 40px 24px;
+    gap: 16px;
+  }
+  .completion-icon { font-size: 56px; }
+  .completion-title {
+    font-size: 32px; font-weight: 800;
+    background: linear-gradient(135deg, #fff, var(--green));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .completion-subtitle { font-size: 16px; color: var(--green-soft); }
+  .completion-stats { display: flex; gap: 32px; margin: 8px 0; }
+  .stat { text-align: center; }
+  .stat-value { font-size: 28px; font-weight: 800; color: var(--green); }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .btn-restart {
+    background: var(--green); color: #0a180a;
+    border: none; border-radius: 30px;
+    padding: 14px 36px; font-size: 16px; font-weight: 700;
+    cursor: pointer; font-family: inherit;
+    box-shadow: 0 0 20px rgba(74,222,128,0.4);
+    transition: all 0.15s; margin-top: 8px;
+  }
+  .btn-restart:hover { background: var(--green-soft); }
+
+  /* STRENGTH PLACEHOLDER */
+  .strength-placeholder {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 60px 24px; gap: 12px;
+  }
+  .placeholder-icon { font-size: 48px; opacity: 0.4; }
+  .placeholder-title { font-size: 22px; font-weight: 700; color: var(--muted); }
+  .placeholder-sub { font-size: 14px; color: var(--muted); opacity: 0.7; }
+
+  /* RESPONSIVE */
+  @media (max-width: 720px) {
+    .workout-grid { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
+    .image-container { aspect-ratio: 16/9; flex: none; }
+    .timer-panel { padding-top: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <button class="btn-back" onclick="history.length > 1 ? history.back() : window.location.href='index.html'">&#8592; Back</button>
+    <div class="logo">Padel Training</div>
+  </div>
+  <div class="tabs">
+    <div class="tab tab-active" id="tab-stretch" onclick="showTab('stretch')">Stretching</div>
+    <div class="tab tab-inactive" id="tab-strength" onclick="showTab('strength')">Strengthening</div>
+  </div>
+</header>
+
+<main id="main-content">
+  <!-- injected by JS -->
+</main>
+
+<script>
+const CIRCUMFERENCE = 502.65;
+
+const exercises = [
+  {
+    name: 'Child Pose',
+    subtitle: 'Arms to Sides',
+    duration: 30,
+    muscles: ['Lower Back', 'Shoulders', 'Hips'],
+    instruction: 'Kneel and sit back toward your heels. Extend both arms forward along the ground, forehead resting down. Breathe deeply and feel the stretch through your lower back and shoulders.',
+    image: '../../06_Claude/PadelDrills/Stretch/2026-06-04 11_48_39-PA1(3)_010 Process Chain Display Log View Earned Performance and Nested Dimensio.png'
+  },
+  {
+    name: 'Wrist Stretch',
+    subtitle: '',
+    duration: 30,
+    muscles: ['Wrists', 'Forearms'],
+    instruction: 'On all fours, place hands flat with fingers pointing back toward your knees. Gently shift weight forward to feel the stretch through your wrists and forearms. Hold steady.',
+    image: '../../06_Claude/PadelDrills/Stretch/2026-06-04 11_49_38-Stretch – Datei-Explorer.png'
+  },
+  {
+    name: '"Thread The Needle"',
+    subtitle: 'Upper Back Stretch',
+    duration: 30,
+    muscles: ['Upper Back', 'Thoracic Spine', 'Shoulders'],
+    instruction: 'Start on all fours. Slide one arm under your body, rotating your upper back until your shoulder and ear rest on the floor. Keep hips square. Repeat on the other side.',
+    image: '../../06_Claude/PadelDrills/Stretch/2026-06-04 11_50_48-Stretch – Datei-Explorer.png'
+  },
+  {
+    name: 'Tricep / Back Stretch',
+    subtitle: '',
+    duration: 30,
+    muscles: ['Triceps', 'Upper Back', 'Shoulders'],
+    instruction: 'Kneel upright. Raise one arm overhead and bend at the elbow. Use your other hand to gently push the elbow back. Feel the stretch through your tricep and upper back. Switch sides.',
+    image: '../../06_Claude/PadelDrills/Stretch/2026-06-04 12_06_22-PA1(3)_010 Process Chain Display Log View Earned Performance and Nested Dimensio.png'
+  },
+  {
+    name: 'Chest Stretch',
+    subtitle: '',
+    duration: 45,
+    muscles: ['Chest', 'Shoulders', 'Thoracic Spine'],
+    instruction: 'Lie on your side. Extend your top arm backward, rotating your chest open toward the sky. Allow gravity to open the chest. Breathe deeply and hold.',
+    image: '../../06_Claude/PadelDrills/Stretch/2026-06-04 12_07_06-PA1(3)_010 Process Chain Display Log View Earned Performance and Nested Dimensio.png'
+  },
+  {
+    name: 'Rotational Back Stretch',
+    subtitle: 'Double Leg',
+    duration: 30,
+    muscles: ['Lower Back', 'Spine', 'Hips'],
+    instruction: 'Lie on your back. Bring both knees to your chest, then lower them together to one side. Extend your arms out wide and keep both shoulders flat on the ground. Repeat the other side.',
+    image: '../../06_Claude/PadelDrills/Stretch/2026-06-04 12_07_52-PA1(3)_010 Process Chain Display Log View Earned Performance and Nested Dimensio.png'
+  },
+  {
+    name: 'Rotational Back Stretch',
+    subtitle: 'Single Leg',
+    duration: 30,
+    muscles: ['Lower Back', 'Hip Flexors', 'Spine'],
+    instruction: 'Lie on your back. Extend one leg flat. Cross the other knee over your body and guide it toward the floor with the opposite hand. Keep your shoulder pressed down. Switch sides.',
+    image: '../../06_Claude/PadelDrills/Stretch/2026-06-04 12_08_40-PA1(3)_010 Process Chain Display Log View Earned Performance and Nested Dimensio.png'
+  },
+  {
+    name: 'Hip Stretch Progressions',
+    subtitle: 'Arms Behind On Ground',
+    duration: 45,
+    muscles: ['Hips', 'Glutes', 'Lower Back'],
+    instruction: 'Sit cross-legged on the floor. Place both hands behind you on the ground for support. Sit tall, gently press knees toward the floor, and feel the hip opening. Breathe slowly.',
+    image: '../../06_Claude/PadelDrills/Stretch/2026-06-04 12_09_17-PA1(3)_010 Process Chain Display Log View Earned Performance and Nested Dimensio.png'
+  },
+  {
+    name: 'Hamstring / Adductor Stretch',
+    subtitle: '',
+    duration: 45,
+    muscles: ['Hamstrings', 'Inner Thighs', 'Lower Back'],
+    instruction: 'Sit with legs extended in a wide V-shape. Reach both hands toward one foot, keeping your spine long. Hold, then reach to the other side. Keep knees soft if needed.',
+    image: '../../06_Claude/PadelDrills/Stretch/2026-06-04 12_10_07-PA1(3)_010 Process Chain Display Log View Earned Performance and Nested Dimensio.png'
+  }
+];
+
+let currentIndex = 0;
+let timeLeft = 0;
+let totalDuration = 0;
+let isPaused = false;
+let isResting = false;
+let timerInterval = null;
+let restInterval = null;
+let workoutStartTime = null;
+
+function playBeep() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 880;
+    gain.gain.setValueAtTime(0.4, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.4);
+  } catch (e) {}
+}
+
+function renderWorkout() {
+  document.getElementById('main-content').innerHTML = `
+    <div class="workout-view">
+      <div class="workout-grid">
+        <div class="image-panel">
+          <div class="exercise-counter">
+            <span class="counter-text" id="counter-text">Exercise 1 of ${exercises.length}</span>
+            <div class="progress-dots" id="progress-dots"></div>
+          </div>
+          <div class="image-container">
+            <img id="exercise-img" src="" alt="" />
+            <div class="image-overlay" id="image-overlay"></div>
+          </div>
+        </div>
+        <div class="timer-panel">
+          <div>
+            <div class="exercise-name" id="exercise-name"></div>
+            <div class="exercise-subtitle" id="exercise-subtitle"></div>
+            <div class="muscle-tags" id="muscle-tags"></div>
+          </div>
+          <div class="timer-wrap">
+            <div class="timer-ring">
+              <svg width="180" height="180" viewBox="0 0 180 180">
+                <circle class="ring-track" cx="90" cy="90" r="80"/>
+                <circle class="ring-fill" id="ring-fill" cx="90" cy="90" r="80"/>
+              </svg>
+              <div class="timer-center">
+                <div class="timer-digits" id="timer-digits">--</div>
+                <div class="timer-label" id="timer-label">seconds</div>
+              </div>
+            </div>
+          </div>
+          <div class="timer-rest-label" id="rest-label" style="display:none">Rest — next up soon</div>
+          <div class="controls">
+            <button class="btn-nav" onclick="prevExercise()" title="Previous">&#9664;&#9664;</button>
+            <button class="btn-play" id="btn-play" onclick="togglePause()">&#9646;&#9646;</button>
+            <button class="btn-nav" onclick="nextExercise()" title="Next">&#9654;&#9654;</button>
+          </div>
+          <button class="btn-skip" onclick="skipExercise()">Skip this exercise</button>
+          <div class="instruction-box">
+            <div class="instruction-title">How to do it</div>
+            <div class="instruction-text" id="instruction-text"></div>
+          </div>
+          <div>
+            <div class="upcoming-label">Up next</div>
+            <div id="upcoming-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderCompletion(totalSeconds) {
+  const mins = Math.floor(totalSeconds / 60);
+  const secs = totalSeconds % 60;
+  const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+  document.getElementById('main-content').innerHTML = `
+    <div class="completion-screen">
+      <div class="completion-icon">&#127941;</div>
+      <div class="completion-title">Workout Complete!</div>
+      <div class="completion-subtitle">Great work — you stretched all ${exercises.length} exercises.</div>
+      <div class="completion-stats">
+        <div class="stat"><div class="stat-value">${exercises.length}</div><div class="stat-label">Exercises</div></div>
+        <div class="stat"><div class="stat-value">${timeStr}</div><div class="stat-label">Total time</div></div>
+      </div>
+      <button class="btn-restart" onclick="startWorkout()">Restart Workout</button>
+    </div>
+  `;
+}
+
+function renderStrengthPlaceholder() {
+  document.getElementById('main-content').innerHTML = `
+    <div class="strength-placeholder">
+      <div class="placeholder-icon">&#128170;</div>
+      <div class="placeholder-title">Strengthening — Coming Soon</div>
+      <div class="placeholder-sub">Exercises will be added here.</div>
+    </div>
+  `;
+}
+
+function showTab(tab) {
+  const stretchTab = document.getElementById('tab-stretch');
+  const strengthTab = document.getElementById('tab-strength');
+  if (tab === 'stretch') {
+    if (stretchTab.classList.contains('tab-active')) return;
+    stretchTab.className = 'tab tab-active';
+    strengthTab.className = 'tab tab-inactive';
+    startWorkout();
+  } else {
+    if (strengthTab.classList.contains('tab-active')) return;
+    stretchTab.className = 'tab tab-inactive';
+    strengthTab.className = 'tab tab-active';
+    clearInterval(timerInterval);
+    clearInterval(restInterval);
+    timerInterval = null;
+    restInterval = null;
+    renderStrengthPlaceholder();
+  }
+}
+
+function loadExercise(index) {
+  const ex = exercises[index];
+  totalDuration = ex.duration;
+  timeLeft = ex.duration;
+
+  document.getElementById('counter-text').textContent = `Exercise ${index + 1} of ${exercises.length}`;
+  document.getElementById('exercise-img').src = ex.image;
+  document.getElementById('exercise-img').alt = ex.name;
+  document.getElementById('image-overlay').textContent = ex.subtitle ? `${ex.name} — ${ex.subtitle}` : ex.name;
+  document.getElementById('exercise-name').textContent = ex.name;
+  document.getElementById('exercise-subtitle').textContent = ex.subtitle;
+  document.getElementById('exercise-subtitle').style.display = ex.subtitle ? 'block' : 'none';
+  document.getElementById('muscle-tags').innerHTML = ex.muscles.map(m => `<span class="muscle-tag">${m}</span>`).join('');
+  document.getElementById('instruction-text').textContent = ex.instruction;
+  document.getElementById('timer-digits').textContent = ex.duration;
+  document.getElementById('timer-label').textContent = 'seconds';
+  document.getElementById('btn-play').innerHTML = '&#9646;&#9646;';
+  isPaused = false;
+
+  updateDots(index);
+  updateUpcoming(index);
+  updateRing(ex.duration, ex.duration);
+}
+
+function updateDots(index) {
+  const container = document.getElementById('progress-dots');
+  container.innerHTML = exercises.map((_, i) => {
+    let cls = 'dot';
+    if (i < index) cls += ' dot-done';
+    else if (i === index) cls += ' dot-current';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+}
+
+function updateUpcoming(index) {
+  const list = document.getElementById('upcoming-list');
+  const next = exercises.slice(index + 1, index + 4);
+  if (next.length === 0) {
+    list.innerHTML = '<div style="font-size:13px;color:var(--muted);">Last exercise — finish strong!</div>';
+    return;
+  }
+  list.innerHTML = next.map((ex, i) => `
+    <div class="upcoming-item">
+      <div class="upcoming-num">${index + 2 + i}</div>
+      <div class="upcoming-name">${ex.name}${ex.subtitle ? ' — ' + ex.subtitle : ''}</div>
+      <div class="upcoming-time">${ex.duration}s</div>
+    </div>
+  `).join('');
+}
+
+function updateRing(remaining, total) {
+  const fraction = remaining / total;
+  const offset = CIRCUMFERENCE * (1 - fraction);
+  const ring = document.getElementById('ring-fill');
+  if (ring) ring.style.strokeDashoffset = offset;
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(tick, 1000);
+}
+
+function tick() {
+  if (isPaused || isResting) return;
+  timeLeft--;
+  updateTimerDisplay(timeLeft);
+  updateRing(timeLeft, totalDuration);
+  if (timeLeft <= 0) {
+    playBeep();
+    if (currentIndex < exercises.length - 1) {
+      startRestPeriod();
+    } else {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      const elapsed = Math.round((Date.now() - workoutStartTime) / 1000);
+      renderCompletion(elapsed);
+    }
+  }
+}
+
+function updateTimerDisplay(seconds) {
+  const el = document.getElementById('timer-digits');
+  if (el) el.textContent = Math.max(0, seconds);
+}
+
+function startRestPeriod() {
+  clearInterval(restInterval);
+  isResting = true;
+  let restCount = 3;
+  const ring = document.getElementById('ring-fill');
+  if (ring) ring.classList.add('ring-fill-rest');
+  const restLabel = document.getElementById('rest-label');
+  if (restLabel) restLabel.style.display = 'block';
+  const timerLabel = document.getElementById('timer-label');
+  if (timerLabel) timerLabel.textContent = 'rest';
+  updateTimerDisplay(restCount);
+  updateRing(restCount, 3);
+  restInterval = setInterval(() => {
+    restCount--;
+    updateTimerDisplay(restCount);
+    updateRing(restCount, 3);
+    if (restCount <= 0) {
+      clearInterval(restInterval);
+      restInterval = null;
+      isResting = false;
+      currentIndex++;
+      loadExercise(currentIndex);
+      const ring = document.getElementById('ring-fill');
+      if (ring) ring.classList.remove('ring-fill-rest');
+      const restLabel = document.getElementById('rest-label');
+      if (restLabel) restLabel.style.display = 'none';
+    }
+  }, 1000);
+}
+
+function togglePause() {
+  if (isResting) return;
+  isPaused = !isPaused;
+  const btn = document.getElementById('btn-play');
+  if (btn) btn.innerHTML = isPaused ? '&#9654;' : '&#9646;&#9646;';
+}
+
+function prevExercise() {
+  if (currentIndex <= 0) return;
+  clearRestAndGo(currentIndex - 1);
+}
+
+function nextExercise() {
+  if (currentIndex >= exercises.length - 1) return;
+  clearRestAndGo(currentIndex + 1);
+}
+
+function skipExercise() {
+  nextExercise();
+}
+
+function clearRestAndGo(index) {
+  clearInterval(restInterval);
+  restInterval = null;
+  isResting = false;
+  isPaused = false;
+  currentIndex = index;
+  const ring = document.getElementById('ring-fill');
+  if (ring) ring.classList.remove('ring-fill-rest');
+  const restLabel = document.getElementById('rest-label');
+  if (restLabel) restLabel.style.display = 'none';
+  loadExercise(index);
+}
+
+function startWorkout() {
+  clearInterval(timerInterval);
+  clearInterval(restInterval);
+  timerInterval = null;
+  restInterval = null;
+  currentIndex = 0;
+  isPaused = false;
+  isResting = false;
+  workoutStartTime = Date.now();
+  renderWorkout();
+  loadExercise(0);
+  startTimer();
+}
+
+window.addEventListener('DOMContentLoaded', () => startWorkout());
+
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+    togglePause();
+  }
+});
+</script>
+</body>
+</html>

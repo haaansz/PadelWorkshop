@@ -294,15 +294,43 @@
   }
   .btn-restart:hover { background: var(--green-soft); }
 
-  /* STRENGTH PLACEHOLDER */
-  .strength-placeholder {
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center; padding: 60px 24px; gap: 12px;
+  /* STRENGTH-SPECIFIC */
+  .set-info-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
   }
-  .placeholder-icon { font-size: 48px; opacity: 0.4; }
-  .placeholder-title { font-size: 22px; font-weight: 700; color: var(--muted); }
-  .placeholder-sub { font-size: 14px; color: var(--muted); opacity: 0.7; }
+  .set-info-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+  .set-info-value { font-size: 20px; font-weight: 800; color: var(--green); }
+  .set-dots { display: flex; gap: 8px; margin-top: 6px; }
+  .set-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--border); transition: all 0.3s;
+  }
+  .set-dot-done { background: var(--green); }
+  .set-dot-current { background: var(--green-soft); box-shadow: 0 0 8px rgba(74,222,128,0.6); }
+  .btn-complete-set {
+    width: 100%; padding: 16px;
+    border-radius: 12px;
+    background: var(--green);
+    border: none; color: #0a180a;
+    font-size: 16px; font-weight: 700;
+    cursor: pointer; font-family: inherit;
+    box-shadow: 0 0 20px rgba(74,222,128,0.3);
+    transition: all 0.15s;
+  }
+  .btn-complete-set:hover { background: var(--green-soft); box-shadow: 0 0 28px rgba(74,222,128,0.45); }
+  .btn-complete-set:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+  .tempo-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(74,222,128,0.06);
+    border: 1px solid rgba(74,222,128,0.15);
+    border-radius: 8px; padding: 6px 12px;
+    font-size: 12px; color: var(--green-soft); font-weight: 500;
+  }
+  .strength-meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
 
   /* RESPONSIVE */
   @media (max-width: 720px) {
@@ -407,6 +435,75 @@ const exercises = [
   }
 ];
 
+const strengthExercises = [
+  {
+    name: 'Push-Ups',
+    subtitle: 'Knie-Variante falls nötig',
+    sets: 4,
+    reps: '8–12',
+    rest: 90,
+    tempo: '3s runter, 1s hoch',
+    muscles: ['Chest', 'Triceps', 'Shoulders'],
+    instruction: 'Hände schulterbreit auf den Boden, Körper bildet eine gerade Linie. Senke dich kontrolliert in 3 Sekunden ab, bis die Brust fast den Boden berührt. Drücke dich explosiv in 1 Sekunde hoch. Falls zu schwer: Knie auf den Boden.',
+    image: 'Strength/push-ups.svg'
+  },
+  {
+    name: 'Bodyweight Squats',
+    subtitle: '',
+    sets: 4,
+    reps: '12–15',
+    rest: 60,
+    tempo: '2s runter',
+    muscles: ['Quads', 'Glutes', 'Hamstrings'],
+    instruction: 'Stehe schulterbreit, Zehen leicht nach außen. Senke dich kontrolliert in 2 Sekunden ab, als ob du dich auf einen Stuhl setzt. Knie über den Zehen, Rücken gerade. Arme nach vorne für Balance. Drücke dich über die Fersen hoch.',
+    image: 'Strength/bodyweight-squats.svg'
+  },
+  {
+    name: 'Glute Bridge',
+    subtitle: 'Einbeinig wenn möglich',
+    sets: 3,
+    reps: '12–15 pro Seite',
+    rest: 60,
+    tempo: 'Pause oben halten',
+    muscles: ['Glutes', 'Hamstrings', 'Core'],
+    instruction: 'Liege auf dem Rücken, Knie gebeugt, Füße flach auf dem Boden. Hebe die Hüfte hoch, bis der Körper eine gerade Linie bildet. Halte kurz oben. Für die einbeinige Variante: ein Bein strecken und nur mit einem Bein drücken.',
+    image: 'Strength/glute-bridge.svg'
+  },
+  {
+    name: 'Pike Push-Up',
+    subtitle: 'Schulter-Fokus',
+    sets: 3,
+    reps: '8–10',
+    rest: 60,
+    tempo: 'kontrolliert',
+    muscles: ['Shoulders', 'Triceps', 'Upper Back'],
+    instruction: 'Starte im Vierfüßlerstand, drücke die Hüfte hoch in ein umgekehrtes V. Hände schulterbreit. Beuge die Arme und senke den Kopf kontrolliert Richtung Boden. Drücke dich wieder hoch. Bei Schulterschmerzen: Wall Push-Ups stattdessen.',
+    image: 'Strength/pike-push-up.svg'
+  },
+  {
+    name: 'Plank',
+    subtitle: 'Unterarm-Stütz',
+    sets: 3,
+    reps: '30–45 Sek',
+    rest: 45,
+    tempo: 'halten',
+    muscles: ['Core', 'Shoulders', 'Glutes'],
+    instruction: 'Unterarme auf den Boden, Ellbogen unter den Schultern. Körper bildet eine gerade Linie von Kopf bis Fersen. Bauchmuskeln anspannen, Hüfte nicht durchhängen lassen. Gleichmäßig atmen und halten.',
+    image: 'Strength/plank.svg'
+  },
+  {
+    name: 'Superman Hold',
+    subtitle: 'Untere Rückenkette',
+    sets: 3,
+    reps: '12 Wdh.',
+    rest: 45,
+    tempo: '2s halten oben',
+    muscles: ['Lower Back', 'Glutes', 'Shoulders'],
+    instruction: 'Liege auf dem Bauch, Arme nach vorne gestreckt. Hebe gleichzeitig Arme, Brust und Beine vom Boden ab. Halte die Position 2 Sekunden oben, dann kontrolliert absenken. Blick nach unten, Nacken neutral.',
+    image: 'Strength/superman-hold.svg'
+  }
+];
+
 let currentIndex = 0;
 let timeLeft = 0;
 let totalDuration = 0;
@@ -502,14 +599,257 @@ function renderCompletion(totalSeconds) {
   `;
 }
 
-function renderStrengthPlaceholder() {
+// ─── Strength Workout State ───
+let strCurrentExercise = 0;
+let strCurrentSet = 0;
+let strResting = false;
+let strRestTime = 0;
+let strRestTotal = 0;
+let strTimer = null;
+let strStartTime = null;
+let strTotalSetsCompleted = 0;
+
+function renderStrengthWorkout() {
+  const ex = strengthExercises[strCurrentExercise];
   document.getElementById('main-content').innerHTML = `
-    <div class="strength-placeholder">
-      <div class="placeholder-icon">&#128170;</div>
-      <div class="placeholder-title">Strengthening — Coming Soon</div>
-      <div class="placeholder-sub">Exercises will be added here.</div>
+    <div class="workout-view">
+      <div class="workout-grid">
+        <div class="image-panel">
+          <div class="exercise-counter">
+            <span class="counter-text" id="str-counter-text">Exercise ${strCurrentExercise + 1} of ${strengthExercises.length}</span>
+            <div class="progress-dots" id="str-progress-dots"></div>
+          </div>
+          <div class="image-container">
+            <img id="str-exercise-img" src="" alt="" />
+            <div class="image-overlay" id="str-image-overlay"></div>
+          </div>
+        </div>
+        <div class="timer-panel">
+          <div>
+            <div class="exercise-name" id="str-exercise-name"></div>
+            <div class="exercise-subtitle" id="str-exercise-subtitle"></div>
+            <div class="muscle-tags" id="str-muscle-tags"></div>
+            <div class="strength-meta" id="str-meta"></div>
+          </div>
+          <div class="set-info-bar">
+            <div>
+              <div class="set-info-label">Current Set</div>
+              <div class="set-info-value" id="str-set-display">1 / ${ex.sets}</div>
+              <div class="set-dots" id="str-set-dots"></div>
+            </div>
+            <div style="text-align:right">
+              <div class="set-info-label">Reps</div>
+              <div class="set-info-value" id="str-reps-display">${ex.reps}</div>
+            </div>
+          </div>
+          <div class="timer-wrap" id="str-timer-wrap" style="display:none">
+            <div class="timer-ring">
+              <svg width="180" height="180" viewBox="0 0 180 180">
+                <circle class="ring-track" cx="90" cy="90" r="80"/>
+                <circle class="ring-fill ring-fill-rest" id="str-ring-fill" cx="90" cy="90" r="80"/>
+              </svg>
+              <div class="timer-center">
+                <div class="timer-digits" id="str-timer-digits">--</div>
+                <div class="timer-label">rest</div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-complete-set" id="str-btn-complete" onclick="strCompleteSet()">Set abgeschlossen &#10003;</button>
+          <div class="controls">
+            <button class="btn-nav" onclick="strPrevExercise()" title="Previous">&#9664;&#9664;</button>
+            <button class="btn-nav" onclick="strNextExercise()" title="Next">&#9654;&#9654;</button>
+          </div>
+          <div class="instruction-box">
+            <div class="instruction-title">Ausführung</div>
+            <div class="instruction-text" id="str-instruction-text"></div>
+          </div>
+          <div>
+            <div class="upcoming-label">Nächste Übungen</div>
+            <div id="str-upcoming-list"></div>
+          </div>
+        </div>
+      </div>
     </div>
   `;
+}
+
+function loadStrengthExercise(index) {
+  const ex = strengthExercises[index];
+  document.getElementById('str-counter-text').textContent = `Exercise ${index + 1} of ${strengthExercises.length}`;
+  document.getElementById('str-exercise-img').src = ex.image;
+  document.getElementById('str-exercise-img').alt = ex.name;
+  document.getElementById('str-image-overlay').textContent = ex.subtitle ? `${ex.name} — ${ex.subtitle}` : ex.name;
+  document.getElementById('str-exercise-name').textContent = ex.name;
+  const sub = document.getElementById('str-exercise-subtitle');
+  sub.textContent = ex.subtitle;
+  sub.style.display = ex.subtitle ? 'block' : 'none';
+  document.getElementById('str-muscle-tags').innerHTML = ex.muscles.map(m => `<span class="muscle-tag">${m}</span>`).join('');
+  document.getElementById('str-meta').innerHTML = `<span class="tempo-badge">&#9201; Tempo: ${ex.tempo}</span><span class="tempo-badge">&#9203; Pause: ${ex.rest}s</span>`;
+  document.getElementById('str-set-display').textContent = `${strCurrentSet + 1} / ${ex.sets}`;
+  document.getElementById('str-reps-display').textContent = ex.reps;
+  document.getElementById('str-instruction-text').textContent = ex.instruction;
+
+  updateStrSetDots(ex.sets, strCurrentSet);
+  updateStrProgressDots(index);
+  updateStrUpcoming(index);
+  strShowWorkingState();
+}
+
+function updateStrSetDots(total, current) {
+  const container = document.getElementById('str-set-dots');
+  container.innerHTML = Array.from({length: total}, (_, i) => {
+    let cls = 'set-dot';
+    if (i < current) cls += ' set-dot-done';
+    else if (i === current) cls += ' set-dot-current';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+}
+
+function updateStrProgressDots(index) {
+  const container = document.getElementById('str-progress-dots');
+  container.innerHTML = strengthExercises.map((_, i) => {
+    let cls = 'dot';
+    if (i < index) cls += ' dot-done';
+    else if (i === index) cls += ' dot-current';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+}
+
+function updateStrUpcoming(index) {
+  const list = document.getElementById('str-upcoming-list');
+  const next = strengthExercises.slice(index + 1, index + 4);
+  if (next.length === 0) {
+    list.innerHTML = '<div style="font-size:13px;color:var(--muted);">Letzte Übung — Vollgas!</div>';
+    return;
+  }
+  list.innerHTML = next.map((ex, i) => `
+    <div class="upcoming-item">
+      <div class="upcoming-num">${index + 2 + i}</div>
+      <div class="upcoming-name">${ex.name}${ex.subtitle ? ' — ' + ex.subtitle : ''}</div>
+      <div class="upcoming-time">${ex.sets}x${ex.reps}</div>
+    </div>
+  `).join('');
+}
+
+function strShowWorkingState() {
+  document.getElementById('str-timer-wrap').style.display = 'none';
+  const btn = document.getElementById('str-btn-complete');
+  btn.disabled = false;
+  btn.textContent = 'Set abgeschlossen ✓';
+}
+
+function strShowRestState(restSeconds) {
+  document.getElementById('str-timer-wrap').style.display = 'flex';
+  const btn = document.getElementById('str-btn-complete');
+  btn.disabled = true;
+  btn.textContent = 'Pause...';
+  strRestTime = restSeconds;
+  strRestTotal = restSeconds;
+  document.getElementById('str-timer-digits').textContent = restSeconds;
+  strUpdateRestRing(restSeconds, restSeconds);
+}
+
+function strUpdateRestRing(remaining, total) {
+  const fraction = remaining / total;
+  const offset = CIRCUMFERENCE * (1 - fraction);
+  const ring = document.getElementById('str-ring-fill');
+  if (ring) ring.style.strokeDashoffset = offset;
+}
+
+function strCompleteSet() {
+  if (strResting) return;
+  const ex = strengthExercises[strCurrentExercise];
+  strTotalSetsCompleted++;
+  strCurrentSet++;
+
+  if (strCurrentSet >= ex.sets) {
+    if (strCurrentExercise >= strengthExercises.length - 1) {
+      clearInterval(strTimer);
+      strTimer = null;
+      const elapsed = Math.round((Date.now() - strStartTime) / 1000);
+      renderStrengthCompletion(elapsed);
+      return;
+    }
+    strCurrentExercise++;
+    strCurrentSet = 0;
+    loadStrengthExercise(strCurrentExercise);
+    strStartRest(ex.rest);
+    return;
+  }
+
+  updateStrSetDots(ex.sets, strCurrentSet);
+  document.getElementById('str-set-display').textContent = `${strCurrentSet + 1} / ${ex.sets}`;
+  strStartRest(ex.rest);
+}
+
+function strStartRest(seconds) {
+  strResting = true;
+  strShowRestState(seconds);
+  playBeep();
+  clearInterval(strTimer);
+  strTimer = setInterval(() => {
+    strRestTime--;
+    document.getElementById('str-timer-digits').textContent = Math.max(0, strRestTime);
+    strUpdateRestRing(strRestTime, strRestTotal);
+    if (strRestTime <= 0) {
+      clearInterval(strTimer);
+      strTimer = null;
+      strResting = false;
+      playBeep();
+      strShowWorkingState();
+    }
+  }, 1000);
+}
+
+function strPrevExercise() {
+  if (strCurrentExercise <= 0) return;
+  clearInterval(strTimer);
+  strTimer = null;
+  strResting = false;
+  strCurrentExercise--;
+  strCurrentSet = 0;
+  loadStrengthExercise(strCurrentExercise);
+}
+
+function strNextExercise() {
+  if (strCurrentExercise >= strengthExercises.length - 1) return;
+  clearInterval(strTimer);
+  strTimer = null;
+  strResting = false;
+  strCurrentExercise++;
+  strCurrentSet = 0;
+  loadStrengthExercise(strCurrentExercise);
+}
+
+function renderStrengthCompletion(totalSeconds) {
+  const mins = Math.floor(totalSeconds / 60);
+  const secs = totalSeconds % 60;
+  const timeStr = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+  document.getElementById('main-content').innerHTML = `
+    <div class="completion-screen">
+      <div class="completion-icon">&#128170;</div>
+      <div class="completion-title">Workout Complete!</div>
+      <div class="completion-subtitle">Alle ${strengthExercises.length} Übungen geschafft — stark!</div>
+      <div class="completion-stats">
+        <div class="stat"><div class="stat-value">${strengthExercises.length}</div><div class="stat-label">Übungen</div></div>
+        <div class="stat"><div class="stat-value">${strTotalSetsCompleted}</div><div class="stat-label">Sätze</div></div>
+        <div class="stat"><div class="stat-value">${timeStr}</div><div class="stat-label">Dauer</div></div>
+      </div>
+      <button class="btn-restart" onclick="startStrengthWorkout()">Nochmal starten</button>
+    </div>
+  `;
+}
+
+function startStrengthWorkout() {
+  clearInterval(strTimer);
+  strTimer = null;
+  strCurrentExercise = 0;
+  strCurrentSet = 0;
+  strResting = false;
+  strTotalSetsCompleted = 0;
+  strStartTime = Date.now();
+  renderStrengthWorkout();
+  loadStrengthExercise(0);
 }
 
 function showTab(tab) {
@@ -519,6 +859,8 @@ function showTab(tab) {
     if (stretchTab.classList.contains('tab-active')) return;
     stretchTab.className = 'tab tab-active';
     strengthTab.className = 'tab tab-inactive';
+    clearInterval(strTimer);
+    strTimer = null;
     startWorkout();
   } else {
     if (strengthTab.classList.contains('tab-active')) return;
@@ -528,7 +870,7 @@ function showTab(tab) {
     clearInterval(restInterval);
     timerInterval = null;
     restInterval = null;
-    renderStrengthPlaceholder();
+    startStrengthWorkout();
   }
 }
 

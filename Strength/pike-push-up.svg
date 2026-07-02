@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#0f1f0f"/>
+  <line x1="80" y1="372" x2="720" y2="372" stroke="#1a3a1a" stroke-width="2"/>
+
+  <!-- Pike Push-Up — elbows flare back toward feet on descent -->
+
+  <!-- Ground contact shadow — most visible when head dips lowest -->
+  <ellipse cx="400" cy="374" rx="170" ry="6" fill="rgba(74,222,128,0.10)">
+    <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </ellipse>
+
+  <!-- Foot (fixed) -->
+  <ellipse cx="545" cy="370" rx="15" ry="6" fill="#4ade80"/>
+
+  <!-- Lower leg (fixed) -->
+  <line x1="540" y1="368" x2="505" y2="290" stroke="#4ade80" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="505" cy="290" r="7" fill="#0f1f0f" stroke="#bbf7d0" stroke-width="3"/>
+
+  <!-- Upper leg (knee to hip) -->
+  <line x1="505" y1="290" x2="430" stroke="#4ade80" stroke-width="10" stroke-linecap="round">
+    <animate attributeName="y2" values="168;185;168" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </line>
+
+  <!-- Hip joint -->
+  <circle cx="430" r="8" fill="#0f1f0f" stroke="#bbf7d0" stroke-width="3">
+    <animate attributeName="cy" values="168;185;168" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </circle>
+
+  <!-- Torso (hip to shoulder) — thick, reads as body mass -->
+  <line x1="430" x2="330" stroke="#4ade80" stroke-width="15" stroke-linecap="round">
+    <animate attributeName="y1" values="168;185;168" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="y2" values="268;310;268" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </line>
+
+  <!-- Shoulder joint -->
+  <circle cx="330" r="8" fill="#0f1f0f" stroke="#bbf7d0" stroke-width="3">
+    <animate attributeName="cy" values="268;310;268" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </circle>
+
+  <!-- Upper arm (shoulder to elbow — elbow moves BACK toward feet) -->
+  <line x1="330" stroke="#4ade80" stroke-width="9" stroke-linecap="round">
+    <animate attributeName="y1" values="268;310;268" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="x2" values="310;370;310" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="y2" values="320;340;320" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </line>
+
+  <!-- Elbow (moves back toward feet) -->
+  <circle r="7" fill="#0f1f0f" stroke="#bbf7d0" stroke-width="3">
+    <animate attributeName="cx" values="310;370;310" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="cy" values="320;340;320" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </circle>
+
+  <!-- Lower arm (elbow to hand — hand fixed, elbow sweeps back) -->
+  <line x2="295" y2="368" stroke="#4ade80" stroke-width="9" stroke-linecap="round">
+    <animate attributeName="x1" values="310;370;310" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="y1" values="320;340;320" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </line>
+
+  <!-- Hand (fixed) -->
+  <ellipse cx="293" cy="370" rx="13" ry="6" fill="#4ade80"/>
+
+  <!-- Head (dips down near ground) — eye + nose face left -->
+  <g>
+    <circle cx="315" r="22" fill="#4ade80">
+      <animate attributeName="cy" values="250;300;250" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    </circle>
+    <circle cx="299" r="3.5" fill="#0f1f0f">
+      <animate attributeName="cy" values="248;298;248" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    </circle>
+    <path fill="#4ade80">
+      <animate attributeName="d" values="M294,256 Q284,258 292,264 Z;M294,306 Q284,308 292,314 Z;M294,256 Q284,258 292,264 Z" dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    </path>
+  </g>
+
+  <!-- Motion arrows — elbow direction, bolder and curved -->
+  <g opacity="0.6">
+    <path d="M340,308 Q365,312 385,325" stroke="#bbf7d0" stroke-width="3" fill="none" stroke-dasharray="6 4" stroke-linecap="round"/>
+    <polygon points="378,317 393,326 380,333" fill="#bbf7d0"/>
+    <path d="M270,255 Q262,230 270,208" stroke="#bbf7d0" stroke-width="3" fill="none" stroke-dasharray="6 4" stroke-linecap="round"/>
+    <polygon points="263,212 270,198 279,211" fill="#bbf7d0"/>
+  </g>
+</svg>

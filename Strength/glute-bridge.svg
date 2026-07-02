@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <rect width="800" height="450" fill="#0f1f0f"/>
+  <line x1="80" y1="372" x2="720" y2="372" stroke="#1a3a1a" stroke-width="2"/>
+
+  <!-- Glute Bridge — side view, knees bent, both feet flat on the ground, -->
+  <!-- hips drive straight up and down between them. -->
+
+  <!-- Foot placement guide: shows both feet stay planted, hips are what move -->
+  <ellipse cx="443" cy="374" rx="20" ry="5" fill="rgba(74,222,128,0.10)"/>
+
+  <!-- Head on ground (fixed) -->
+  <circle cx="210" cy="345" r="24" fill="#4ade80"/>
+  <circle cx="196" cy="341" r="3.5" fill="#0f1f0f"/>
+  <path d="M188,352 Q178,354 186,360 Z" fill="#4ade80"/>
+
+  <!-- Arms flat on ground (fixed) -->
+  <line x1="240" y1="340" x2="220" y2="358" stroke="#4ade80" stroke-width="6" stroke-linecap="round"/>
+  <line x1="220" y1="358" x2="198" y2="368" stroke="#4ade80" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="195" cy="369" rx="10" ry="5" fill="#4ade80"/>
+
+  <!-- Upper back (fixed on ground, connects to animated torso) -->
+  <line x1="235" y1="345" x2="310" stroke="#4ade80" stroke-width="14" stroke-linecap="round">
+    <animate attributeName="y2" values="335;305;335" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </line>
+
+  <!-- Shoulder joint -->
+  <circle cx="310" r="7" fill="#0f1f0f" stroke="#bbf7d0" stroke-width="3">
+    <animate attributeName="cy" values="335;305;335" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </circle>
+
+  <!-- Torso (shoulder to hip — animated, thick to read as body mass) -->
+  <line x1="310" x2="400" stroke="#4ade80" stroke-width="14" stroke-linecap="round">
+    <animate attributeName="y1" values="335;305;335" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="y2" values="320;250;320" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </line>
+
+  <!-- Upper leg (hip to knee) — knee stays bent, foot planted the whole time -->
+  <line x1="400" x2="460" stroke="#4ade80" stroke-width="10" stroke-linecap="round">
+    <animate attributeName="y1" values="320;250;320" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+    <animate attributeName="y2" values="330;305;330" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </line>
+
+  <!-- Hip joint (animated — this is what actually moves) -->
+  <circle cx="400" r="8" fill="#0f1f0f" stroke="#bbf7d0" stroke-width="3">
+    <animate attributeName="cy" values="320;250;320" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </circle>
+
+  <!-- Knee joint -->
+  <circle cx="460" r="7" fill="#0f1f0f" stroke="#bbf7d0" stroke-width="3">
+    <animate attributeName="cy" values="330;305;330" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </circle>
+
+  <!-- Lower leg (knee to foot — foot fixed flat on the ground) -->
+  <line x1="460" x2="443" y2="368" stroke="#4ade80" stroke-width="10" stroke-linecap="round">
+    <animate attributeName="y1" values="330;305;330" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/>
+  </line>
+  <ellipse cx="443" cy="370" rx="15" ry="6" fill="#4ade80"/>
+
+  <!-- Hip raise arrow — bolder, curved -->
+  <g opacity="0.6">
+    <path d="M400,285 Q412,260 400,238" stroke="#bbf7d0" stroke-width="3" fill="none" stroke-dasharray="6 4" stroke-linecap="round"/>
+    <polygon points="393,242 400,228 409,241" fill="#bbf7d0"/>
+  </g>
+</svg>
